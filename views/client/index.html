@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <%- head %>
+</head>
+
+<body>
+
+    <div class="row">
+        <div class="col-md-6 login-background">
+
+        </div>
+        <div class="col-md-6">
+            <div class="login-form-container">
+                <div class="login-form">
+                    <div class="text-white text-center mb-5">
+                        <h4 class="">Welcome Back!</h4>
+                        <p>Sign in to continue to Dashboard.</p>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <label class="form-label">User Name</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="form-label">Password</label>
+                        <input type="text" class="form-control">
+                        <p class="mt-1 text-end forgot-pass-text">
+                            <a href="">Forgot Password?</a>
+                        </p>
+                    </div>
+
+                    <a href="/dashboard" class="">
+                        <button class="btn btn-primary w-100">Login</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- scripts -->
+    <%- scripts %>
+</body>
+
+</html>

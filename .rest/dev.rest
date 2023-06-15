@@ -1,0 +1,29 @@
+@hostname = http://localhost:8081
+# @hostname = https://eshop.similater.com
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjowLCJyb2xlIjowLCJsb2NhdGlvbiI6MCwiaWF0IjoxNjg2MzE0MDAzLCJleHAiOjQ2ODYzMTQwMDN9.xz8Zy47QoUKt6RMIyYPJwTzRWP_OgvgRELVZ2_4MDvM
+@path = /api/dev
+
+
+
+### dev login
+
+post {{hostname}}{{path}}/login 
+Content-Type: application/json
+Authorization: bearer {{accessToken}}
+
+{
+    "username" : "developer@similater.com",
+    "password" : "similater"
+}
+
+### dev error/list
+
+get {{hostname}}{{path}}/error/list 
+Content-Type: application/json
+Authorization: bearer {{accessToken}}
+
+### dev error/delete
+
+get {{hostname}}{{path}}/error/delete 
+Content-Type: application/json
+Authorization: bearer {{accessToken}}

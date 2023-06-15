@@ -1,0 +1,11 @@
+{
+    "0": {
+        "table": "image",
+        "column": "image",
+        "destination": "public/uploads/images/uncategorized",
+        "title": "uncategorized image",
+        "permissions":{
+            "1": [999]
+        }
+    }
+}
