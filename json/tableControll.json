@@ -1,0 +1,16 @@
+{
+    "1" : {
+        "table" : "sample",
+        "deleteAccess": {
+            "1": {
+                "check" : "sample"
+            }
+        },
+        "statusAccess": {
+            "1": {
+                "status" : [1,2],
+                "check" : "sample"
+            }
+        }
+    }
+}

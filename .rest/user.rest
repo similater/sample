@@ -1,0 +1,80 @@
+@hostname = http://localhost:8081
+# @hostname = https://eshop.similater.com
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJyb2xlIjoxLCJsb2NhdGlvbiI6MCwiaWF0IjoxNjY2OTU2MTg4LCJleHAiOjQ2NjY5NTYxODh9.-MKOr7FBjbySpLhlCymMgtYmoiuz1mBll4JcbGpbQxM
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJyb2xlIjoxLCJsb2NhdGlvbiI6MCwiaWF0IjoxNjY2OTU2MTg4LCJleHAiOjQ2NjY5NTYxODh9.-MKOr7FBjbySpLhlCymMgtYmoiuz1mBll4JcbGpbQxM
+@path = /api/user
+
+
+
+### user login
+
+post {{hostname}}{{path}}/login 
+Content-Type: application/json
+Authorization: bearer {{accessToken}}
+
+{
+    "auth" : "admin",
+    "pass" : "similater"
+}
+
+### user add
+
+post {{hostname}}{{path}}/add 
+Content-Type: application/json
+
+{
+    "name" : "seller 2",
+    "role" : 4,
+    "web" : "https://similater.com",
+    "auth" : "seller2",
+    "pass" : "similater",
+    "address" : "address",
+    "phone" : "0760358784"
+}
+
+### user check
+
+get {{hostname}}{{path}}/check 
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxMywicm9sZSI6MywibG9jYXRpb24iOjEsImlhdCI6MTY3NjAxNzY0OSwiZXhwIjoxNzA2MDE3NjQ5fQ.2A4BlLVSVZMQhB8wu0MiB4dMtVhjKkHElD3SL0HkOBs
+
+### user logout
+
+get {{hostname}}{{path}}/logout 
+Content-Type: application/json
+
+
+### user list
+
+post {{hostname}}{{path}}/list 
+Content-Type: application/json
+Authorization: bearer {{accessToken}}
+
+{
+    "added_by" : 1,
+    "role" : 3
+}
+
+### user view
+
+post {{hostname}}{{path}}/view 
+Content-Type: application/json
+Authorization: bearer {{accessToken}}
+
+{
+    "id" : 39
+}
+
+### user edit
+
+post {{hostname}}{{path}}/edit 
+Content-Type: application/json
+Authorization: bearer {{accessToken}}
+
+{
+    "id" : 39,
+    "name" : "sample",
+    "role" : 3,
+    "address" : "sample",
+    "auth" : "auth",
+    "phone" : "0760358784"
+}

@@ -1,0 +1,12 @@
+{
+    "1" : {
+        "__Comment__" : "Sample selection",
+        "__Usage__" : ["Add user"],
+        "table" : "sample",
+        "roles" : [1],
+        "data": {
+            "select" : "sample.id, sample.name",
+            "where" : ""
+        }
+    }
+}

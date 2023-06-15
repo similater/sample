@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Copy Table</title>
+
+    <%- head %>
+
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <%- sidebar %>
+
+        <!-- Top Header -->
+        <%- topHeader %>
+
+            <div class="content-container">
+                <div class="breadcrumb">
+                    <div class="">
+                        <h4 class="breadcrumb-title">Project Managemt</h4>
+                    </div>
+                    <div class=""></div>
+                </div>
+                <section>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Database 1</label>
+                                <select id="db1" name="" class="w-100 select2-custom-defult" onchange="getModules(1)">
+                                    <option value="" selected>Search Select</option>
+                                    <% for (var i=0; i < databases.length; i++) { %>
+                                        <option value="<%= databases[i].Database %>">
+                                            <%= databases[i].Database %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-primary" onclick="getModules(1)">Add</button>
+                                <button class="btn btn-warning" onclick="clearInput(1)">Clear</button>
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="d-flex justify-content-end mb-3">
+                                    <input class="" id="filterInput_1" type="text" placeholder="Search...">
+                                </div>
+                                <table class="table-custom table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Module</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="modules_table_body_1">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Database 2</label>
+                                <select id="db2" name="" class="w-100 select2-custom-defult" onchange="getModules(2)">
+                                    <option value="" selected>Search Select</option>
+                                    <% for (var i=0; i < databases.length; i++) { %>
+                                        <option value="<%= databases[i].Database %>">
+                                            <%= databases[i].Database %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-primary" onclick="getModules(2)">Add</button>
+                                <button class="btn btn-warning" onclick="clearInput(2)">Clear</button>
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="d-flex justify-content-end mb-3">
+                                    <input id="filterInput_2" class="" type="text" placeholder="Search...">
+                                </div>
+                                <table class="table-custom table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Module</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="modules_table_body_2">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+
+            <!-- Datalists -->
+            <datalist id="paths">
+                
+            </datalist>
+            <datalist id="modules1"></datalist>
+            <datalist id="modules2"></datalist>
+            <datalist id="databases"></datalist>
+
+            <!-- scripts -->
+            <%- scripts %>
+
+                <script>
+
+                    function clearInput(input) {
+                        if (input == 1) {
+                            document.getElementById("path1").value = '';
+                            document.getElementById("modules_table_body_1").innerHTML = '';
+
+                        } else {
+                            document.getElementById("path2").value = '';
+                            document.getElementById("modules_table_body_2").innerHTML = '';
+                        }
+                    }
+
+                    document.getElementById("filterInput_1").addEventListener("keyup", function () {
+                        filterTable(1)
+                    });
+                    document.getElementById("filterInput_2").addEventListener("keyup", function () {
+                        filterTable(2)
+                    });
+
+                    function filterTable(table) {
+
+                        var input, filter, table, tr, td, i, txtValue;
+
+                        if (table == 1) {
+                            input = document.getElementById("filterInput_1");
+                            table = document.getElementById("modules_table_body_1");
+                        } else {
+                            input = document.getElementById("filterInput_2");
+                            table = document.getElementById("modules_table_body_2");
+                        }
+
+                        filter = input.value.toUpperCase();
+                        tr = table.getElementsByTagName("tr");
+
+                        for (i = 0; i < tr.length; i++) {
+                            td = tr[i].getElementsByTagName("td");
+                            for (var j = 0; j < td.length; j++) {
+                                txtValue = td[j].textContent || td[j].innerText;
+                                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                    tr[i].style.display = "";
+                                    break;
+                                } else {
+                                    tr[i].style.display = "none";
+                                }
+                            }
+                        }
+                    }
+
+
+                    async function getModules(num) {
+                        let db = $("#db" + num).val();
+                        if (db == '') return;
+                        let response = await req(
+                            '/api/auto/db/tables',
+                            'post', {
+                            "db": db
+                        }
+                        );
+
+                        if (response.status) {
+                            document.getElementById(`modules_table_body_${num}`).innerHTML = ``;
+                            for (var i = 0; i < response.data.length; i++) {
+                                document.getElementById(`modules_table_body_${num}`).innerHTML += `
+                    
+                                <tr>
+                                    <td scope="row">${i + 1}</td>
+                                    <td>${response.data[i].table_name}</td>
+                                    <td>
+                                        <button class="btn-icon btn-success" onclick="merge_module('${num}', '${response.data[i].table_name}')">
+                                            <i class="fa-solid fa-code-merge"></i>
+                                        </button>
+                                    </td>
+                                </tr>`;
+                            }
+                        } else {
+                            wrongAlert(response.message);
+                        }
+
+                    }
+
+
+                    async function merge_module(num, table) {
+
+                        let db1 = $("#db1").val();
+                        let db2 = $("#db2").val();
+                        if (db1 == '') {
+                            wrongAlert('No db1 specified');
+                            return;
+                        }
+                        if (db2 == '') {
+                            wrongAlert('No db2 specified');
+                            return;
+                        }
+
+                        let confirm = await confirmBox();
+                        if (confirm) {
+
+
+                            if (num == 2) {
+                                db1 = $("#db2").val();
+                                db2 = $("#db1").val();
+                            }
+
+                            let response = await req(
+                                '/api/auto/copy/table',
+                                'post', {
+                                "db1": db1,
+                                "db2": db2,
+                                "table": table
+                            }
+                            );
+
+                            if (response.status) {
+                                getModules(1)
+                                getModules(2)
+                                successAlert("success");
+                            } else {
+                                wrongAlert(response.message);
+                            }
+                        }
+                    }
+
+
+                </script>
+
+</body>
+
+</html>
